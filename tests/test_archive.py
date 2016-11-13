@@ -22,13 +22,13 @@ def test_repo_and_local_source_files(tmpdir):
 
         with ZipFile(paths.zip_path) as zipfile:
             with zipfile.open('hello.txt') as f:
-                assert f.read() == 'repo'
+                assert f.read().decode('utf-8') == 'repo'
 
         archive.make_archive(paths, local_source_files=[('hello.txt', 'dest.txt')])
 
         with ZipFile(paths.zip_path) as zipfile:
             with zipfile.open('dest.txt') as f:
-                assert f.read() == 'local'
+                assert f.read().decode('utf-8') == 'local'
 
 
 def test_deps_file(tmpdir):
@@ -52,4 +52,4 @@ def test_deps_file(tmpdir):
         with ZipFile(paths.zip_path) as zipfile:
             assert len(zipfile.namelist()) == 1
             with zipfile.open('mypackage/hello.txt') as f:
-                assert f.read() == 'hello'
+                assert f.read().decode('utf-8') == 'hello'
