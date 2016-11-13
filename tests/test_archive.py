@@ -24,7 +24,6 @@ def test_repo_and_local_source_files(tmpdir):
             with zipfile.open('hello.txt') as f:
                 assert f.read() == 'repo'
 
-
         archive.make_archive(paths, local_source_files=[('hello.txt', 'dest.txt')])
 
         with ZipFile(paths.zip_path) as zipfile:

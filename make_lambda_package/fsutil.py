@@ -7,7 +7,7 @@ from six.moves import urllib
 
 Paths = namedtuple('Paths', 'src_dir build_dir dist_dir zip_path')
 LocalSource = namedtuple('LocalSource', 'path')
-RemoteSource = namedtuple('RemoteSource', 'url ref repo_dir') # assumes git
+RemoteSource = namedtuple('RemoteSource', 'url ref repo_dir')  # assumes git
 
 
 def mkdir_p(path):
@@ -40,7 +40,7 @@ def chdir(path):
         os.chdir(curdir)
 
 
-def parse_path_or_url(path_or_url): # -> Union[LocalSource, RemoteSource]
+def parse_path_or_url(path_or_url):  # -> Union[LocalSource, RemoteSource]
     parse_result = urllib.parse.urlparse(path_or_url)
     if parse_result.scheme in ('', 'file'):
         return LocalSource(path_or_url)
