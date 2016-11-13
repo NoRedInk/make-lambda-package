@@ -13,7 +13,7 @@ def main(argv=[]):
         dest = argv[2]
 
     command = 'make-lambda-package --help'
-    help_text = subprocess.check_output(command, shell=True)
+    help_text = subprocess.check_output(command, shell=True).decode('utf-8')
     indent = ' ' * 4
     indented = '\n'.join(
         indent + line if line else line

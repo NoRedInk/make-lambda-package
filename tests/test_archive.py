@@ -7,7 +7,8 @@ from make_lambda_package import fsutil
 
 def test_repo_and_local_source_files(tmpdir):
     with tmpdir.as_cwd():
-        paths = fsutil.decide_paths('https://gist.github.com/hello.git')
+        scm_source = fsutil.parse_path_or_url('https://gist.github.com/hello.git')
+        paths = fsutil.decide_paths(scm_source)
         fsutil.ensure_dirs(paths)
         fsutil.mkdir_p(paths.src_dir)
 
@@ -21,19 +22,19 @@ def test_repo_and_local_source_files(tmpdir):
 
         with ZipFile(paths.zip_path) as zipfile:
             with zipfile.open('hello.txt') as f:
-                assert f.read() == 'repo'
-
+                assert f.read().decode('utf-8') == 'repo'
 
         archive.make_archive(paths, local_source_files=[('hello.txt', 'dest.txt')])
 
         with ZipFile(paths.zip_path) as zipfile:
             with zipfile.open('dest.txt') as f:
-                assert f.read() == 'local'
+                assert f.read().decode('utf-8') == 'local'
 
 
 def test_deps_file(tmpdir):
     with tmpdir.as_cwd():
-        paths = fsutil.decide_paths('https://gist.github.com/hello.git')
+        scm_source = fsutil.parse_path_or_url('https://gist.github.com/hello.git')
+        paths = fsutil.decide_paths(scm_source)
         fsutil.ensure_dirs(paths)
 
         site_packages_path = py.path.local(paths.build_dir).join(
@@ -51,4 +52,4 @@ def test_deps_file(tmpdir):
         with ZipFile(paths.zip_path) as zipfile:
             assert len(zipfile.namelist()) == 1
             with zipfile.open('mypackage/hello.txt') as f:
-                assert f.read() == 'hello'
+                assert f.read().decode('utf-8') == 'hello'

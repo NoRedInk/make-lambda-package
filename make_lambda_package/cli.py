@@ -69,12 +69,13 @@ def main(
     scm_source = fsutil.parse_path_or_url(source)
     paths = fsutil.decide_paths(scm_source, work_dir)
 
-
     if requirements_file:
         import click
         docker_retcode = subprocess.call(['docker', '--help'])
         if docker_retcode != 0:
-            raise click.UsageError("`docker` command doesn't seem to be available. It's required to package dependencies.")
+            raise click.UsageError(
+                "`docker` command doesn't seem to be available. "
+                "It's required to package dependencies.")
 
     fsutil.ensure_dirs(paths)
 

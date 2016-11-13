@@ -7,6 +7,8 @@ def test_fetch_and_refetch(tmpdir):
     origin = tmpdir.mkdir('origin')
     with origin.as_cwd():
         subprocess.check_call(['git', 'init'])
+        subprocess.check_call(['git', 'config', 'user.email', 'make-lambda-package@example.com'])
+        subprocess.check_call(['git', 'config', 'user.name', 'make-lambda-package'])
 
     first_sha = make_commit(origin, 'initial commit')
     second_sha = make_commit(origin, 'second commit')
