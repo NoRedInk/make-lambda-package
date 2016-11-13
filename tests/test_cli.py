@@ -33,7 +33,7 @@ def test_end_to_end(tmpdir, runner):
 
         with ZipFile(str(zip_path)) as zipfile:
             namelist = zipfile.namelist()
-            assert len(filter(lambda name: 'click' in name, namelist)) > 0
+            assert len(list(filter(lambda name: 'click' in name, namelist))) > 0
             assert 'world.txt' in namelist
             assert 'make_lambda_package/cli.py' in namelist
 
