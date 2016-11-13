@@ -7,7 +7,8 @@ from make_lambda_package import fsutil
 
 def test_repo_and_local_source_files(tmpdir):
     with tmpdir.as_cwd():
-        paths = fsutil.decide_paths('https://gist.github.com/hello.git')
+        scm_source = fsutil.parse_path_or_url('https://gist.github.com/hello.git')
+        paths = fsutil.decide_paths(scm_source)
         fsutil.ensure_dirs(paths)
         fsutil.mkdir_p(paths.src_dir)
 
@@ -33,7 +34,8 @@ def test_repo_and_local_source_files(tmpdir):
 
 def test_deps_file(tmpdir):
     with tmpdir.as_cwd():
-        paths = fsutil.decide_paths('https://gist.github.com/hello.git')
+        scm_source = fsutil.parse_path_or_url('https://gist.github.com/hello.git')
+        paths = fsutil.decide_paths(scm_source)
         fsutil.ensure_dirs(paths)
 
         site_packages_path = py.path.local(paths.build_dir).join(
