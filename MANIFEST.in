@@ -1,0 +1,2 @@
+include requirements.in LICENSE README.md tox.ini .travis.yml
+recursive-include tests *.py
