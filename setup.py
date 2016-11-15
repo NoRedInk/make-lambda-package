@@ -8,7 +8,7 @@ with open('requirements.in') as f:
 
 setup(
     name='make-lambda-package',
-    version='1.0.0',
+    version='1.0.1',
     url='https://github.com/NoRedInk/make-lambda-package',
     license='BSD-3-Clause',
     author='Marica Odagaki',
