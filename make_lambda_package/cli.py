@@ -70,7 +70,8 @@ def main(
     paths = fsutil.decide_paths(scm_source, work_dir)
 
     if requirements_file:
-        docker_retcode = subprocess.call(['docker', '--help'])
+        with open(os.devnull, 'w') as devnull:
+            docker_retcode = subprocess.call(['docker', '--help'], stdout=devnull)
         if docker_retcode != 0:
             raise click.UsageError(
                 "`docker` command doesn't seem to be available. "
