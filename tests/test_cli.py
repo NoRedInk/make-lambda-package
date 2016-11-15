@@ -11,7 +11,30 @@ def runner():
     return CliRunner()
 
 
-def test_end_to_end(tmpdir, runner):
+def test_with_no_source_options(tmpdir, runner):
+    cwd = os.getcwd()
+    work_dir = tmpdir.join('deploy_package')
+    args = [
+        cwd,
+        '--work-dir', str(work_dir),
+    ]
+
+    with tmpdir.as_cwd():
+        result = runner.invoke(cli.main, args)
+        assert not result.exception, result.output
+        assert result.exit_code == 0, result.output
+
+        zip_path = work_dir.join('dist', 'lambda-package.zip')
+        assert zip_path.isfile(), result.output
+
+        with ZipFile(str(zip_path)) as zipfile:
+            namelist = zipfile.namelist()
+            assert len(list(namelist)) == 0
+
+        assert 'Warning' in result.output
+
+
+def test_with_all_source_options(tmpdir, runner):
     cwd = os.getcwd()
     work_dir = tmpdir.join('deploy_package')
     args = [

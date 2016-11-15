@@ -70,12 +70,19 @@ def main(
     paths = fsutil.decide_paths(scm_source, work_dir)
 
     if requirements_file:
-        import click
-        docker_retcode = subprocess.call(['docker', '--help'])
+        with open(os.devnull, 'w') as devnull:
+            docker_retcode = subprocess.call(['docker', '--help'], stdout=devnull)
         if docker_retcode != 0:
             raise click.UsageError(
                 "`docker` command doesn't seem to be available. "
                 "It's required to package dependencies.")
+
+    if not (requirements_file or repo_source_files or local_source_file):
+        click.secho(
+            'Warning: without --repo-source-files, --requirements-file, '
+            'or --local-source-file, nothing will be included in the zip file. '
+            'Assuming you have good reasons to do this and proceeding.',
+            fg='yellow')
 
     fsutil.ensure_dirs(paths)
 

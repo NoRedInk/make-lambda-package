@@ -6,16 +6,20 @@ source code, configs, and dependencies with extension modules.
 
 # Installation
 
-If you don't use `pipsi`, you're missing out.
-Here are [installation instructions](https://github.com/mitsuhiko/pipsi#readme).
+With [pipsi](https://github.com/mitsuhiko/pipsi#readme):
 
-Simply run:
-
-    $ pipsi install .
+    $ pipsi install make-lambda-package
 
 
-Packaging dependencies requires [the `docker` command](https://www.docker.com/)
-to be in your `$PATH`.
+Or pip:
+
+    $ pip install make-lambda-package
+
+
+Packaging dependencies with the `--requirements-file` option requires
+[the `docker` command](https://www.docker.com/) to be in your `$PATH`.
+Dependencies will be built in a [lambci/lambda:build-python2.7](https://github.com/lambci/docker-lambda)
+container.
 
 
 # Usage
