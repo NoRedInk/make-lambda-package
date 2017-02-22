@@ -16,7 +16,7 @@ pip install pip-tools
 
 cd "{docker_src_dir}"
 
-pip-sync {requirements_file}
+pip-sync --extra-index-url https://pypi.fury.io/pZP6AjtP9xNewP4WQ1He/arivaletech/ {requirements_file}
 
 rm -f "{docker_build_dir}/{deps_file}"
 packages=({package_names})
