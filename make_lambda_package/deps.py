@@ -1,6 +1,12 @@
 import os.path
 import subprocess
-import pip
+
+try:
+    # pip >= 10.x
+    from pip._internal.req import parse_requirements
+except ImportError:
+    # pip 9.x compat
+    from pip.req import parse_requirements
 
 
 DOCKER_BUILD_SCRIPT = '''
@@ -29,7 +35,7 @@ done
 
 
 def build_deps(paths, requirements_file):
-    requirements = pip.req.parse_requirements(
+    requirements = parse_requirements(
         os.path.join(paths.src_dir, requirements_file), session=True)
     package_names = [req.name for req in requirements]
     deps_file = 'deps.txt'
