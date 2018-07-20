@@ -69,3 +69,14 @@ To use it:
       --work-dir <output_directory>   Where to store intermediary files and the
                                       zipped package.
       --help                          Show this message and exit.
+
+# Development
+
+Install packages and run tests:
+
+```sh
+$ pipenv install
+$ pipenv install -d
+$ pipenv shell
+$ pytest
+```

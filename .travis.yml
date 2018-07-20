@@ -13,11 +13,8 @@ env:
   - TEST_PIP_VERSION="<10.0"
   - TEST_PIP_VERSION=""
 install:
-  - "pip install -r requirements.txt"
-  - "pip install -r dev-requirements.txt"
   - "pip install tox tox-travis"
-  - "pip install --force-reinstall pip$TEST_PIP_VERSION"
 script:
-  - "tox"
+  - "tox --force-dep pip$TEST_PIP_VERSION"
 notifications:
   email: false

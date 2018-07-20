@@ -40,7 +40,7 @@ def test_with_all_source_options(tmpdir, runner):
     args = [
         cwd,
         '--repo-source-files', 'make_lambda_package/*.py',
-        '--requirements-file', 'requirements.txt',
+        '--requirements-file', 'tests/test-requirements.txt',
         '--local-source-file', 'hello.txt', 'world.txt',
         '--work-dir', str(work_dir),
     ]
