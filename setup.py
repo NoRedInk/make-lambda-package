@@ -18,6 +18,7 @@ setup(
     platforms='any',
     install_requires=[
         'click',
+        'pip',
         'six',
     ],
     entry_points={
