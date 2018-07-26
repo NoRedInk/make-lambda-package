@@ -5,7 +5,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='make-lambda-package',
-    version='1.0.1',
+    version='1.0.2',
     url='https://github.com/NoRedInk/make-lambda-package',
     license='BSD-3-Clause',
     author='Marica Odagaki',
