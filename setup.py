@@ -3,9 +3,6 @@ Bundle up deployment packages for AWS Lambda.
 """
 from setuptools import find_packages, setup
 
-with open('requirements.in') as f:
-    dependencies = f.readlines()
-
 setup(
     name='make-lambda-package',
     version='1.0.1',
@@ -19,7 +16,11 @@ setup(
     include_package_data=True,
     zip_safe=False,
     platforms='any',
-    install_requires=dependencies,
+    install_requires=[
+        'click',
+        'pip',
+        'six',
+    ],
     entry_points={
         'console_scripts': [
             'make-lambda-package = make_lambda_package.cli:main',

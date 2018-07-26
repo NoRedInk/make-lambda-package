@@ -4,16 +4,17 @@ services:
 language: python
 cache: pip
 python:
+ - "3.6"
  - "3.5"
  - "3.4"
- - "3.3"
  - "2.7"
  - "pypy"
+env:
+  - TEST_PIP_VERSION="<10.0"
+  - TEST_PIP_VERSION=""
 install:
-  - "pip install -r requirements.txt"
-  - "pip install -r dev-requirements.txt"
   - "pip install tox tox-travis"
 script:
-  - "tox"
+  - "tox --force-dep pip$TEST_PIP_VERSION"
 notifications:
   email: false

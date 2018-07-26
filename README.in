@@ -28,3 +28,14 @@ To use it:
 
     $ make-lambda-package --help
 {indented_help_text}
+
+# Development
+
+Install packages and run tests:
+
+```sh
+$ pipenv install
+$ pipenv install -d
+$ pipenv shell
+$ pytest
+```
