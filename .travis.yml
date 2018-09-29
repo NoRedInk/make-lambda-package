@@ -15,6 +15,6 @@ env:
 install:
   - "pip install tox tox-travis"
 script:
-  - "tox --force-dep pip$TEST_PIP_VERSION"
+  - "INSTALL_COMMAND_ARGS=${TEST_PIP_VERSION+--ignore-installed} tox --force-dep pip$TEST_PIP_VERSION"
 notifications:
   email: false
