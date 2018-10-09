@@ -26,12 +26,18 @@ from make_lambda_package import scm
               metavar='<output_directory>',
               type=click.Path(exists=False, file_okay=False, writable=True),
               help='Where to store intermediary files and the zipped package. ')
+@click.option('--python',
+              metavar='<python_version>',
+              default='python2.7',
+              type=click.Choice(['python2.7', 'python3.6']),
+              help='The version of Python to build against, either python2.7 or python3.6 ')
 def main(
         source,
         repo_source_files,
         requirements_file,
         local_source_file,
-        work_dir):
+        work_dir,
+        python):
     """
     Bundle up a deployment package for AWS Lambda.
 
@@ -93,14 +99,15 @@ def main(
     deps_file = None
     if requirements_file:
         click.echo('Building deps..')
-        deps_file = deps.build_deps(paths, requirements_file)
+        deps_file = deps.build_deps(paths, requirements_file, python)
 
     click.echo('Creating zip file..')
     archive.make_archive(
         paths,
         repo_source_files,
         local_source_file,
-        deps_file)
+        deps_file,
+        python)
 
     click.echo(os.path.relpath(paths.zip_path, os.getcwd()))
 

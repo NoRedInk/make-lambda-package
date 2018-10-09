@@ -34,7 +34,7 @@ done
 '''
 
 
-def build_deps(paths, requirements_file):
+def build_deps(paths, requirements_file, python='python2.7'):
     requirements = parse_requirements(
         os.path.join(paths.src_dir, requirements_file), session=True)
     package_names = [req.name for req in requirements]
@@ -55,7 +55,7 @@ def build_deps(paths, requirements_file):
         'docker', 'run',
         '-v', '{build_dir}:{docker_build_dir}'.format(**context),
         '-v', '{src_dir}:{docker_src_dir}'.format(**context),
-        'lambci/lambda:build-python2.7',
+        'lambci/lambda:build-{python}'.format(python=python),
         'bash', '-c', build_script,
     ]
     subprocess.check_call(command)
