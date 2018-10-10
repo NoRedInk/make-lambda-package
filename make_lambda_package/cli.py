@@ -13,6 +13,7 @@ from make_lambda_package import scm
                 metavar='<path_or_url>')
 @click.option('--repo-source-files',
               metavar='<glob_pattern_in_source>',
+              multiple=True,
               help='Source files to package.')
 @click.option('--requirements-file',
               metavar='<path_in_source>',

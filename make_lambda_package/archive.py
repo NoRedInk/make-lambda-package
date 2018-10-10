@@ -28,8 +28,9 @@ def _add_local_files(zipfile, local_source_files):
 
 def _add_repo_files(zipfile, paths, repo_source_files):
     with fsutil.chdir(paths.src_dir):
-        for path in glob.glob(repo_source_files):
-            zipfile.write(path)
+        for glob_pattern in repo_source_files:
+            for path in glob.glob(glob_pattern):
+                zipfile.write(path)
 
 
 def _add_deps(zipfile, paths, deps_file, python):
