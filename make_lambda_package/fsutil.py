@@ -47,7 +47,8 @@ def parse_path_or_url(path_or_url):  # -> Union[LocalSource, RemoteSource]
     else:
         ref = parse_result.fragment or 'master'
         repo_dir = os.path.splitext(parse_result.path[1:])[0]
-        return RemoteSource(path_or_url, ref, repo_dir)
+        (url, _) = urllib.parse.urldefrag(path_or_url)
+        return RemoteSource(url, ref, repo_dir)
 
 
 def decide_paths(scm_source, work_dir=None):
