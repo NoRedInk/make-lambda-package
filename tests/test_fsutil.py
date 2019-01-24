@@ -32,6 +32,12 @@ def test_parse_path_or_url_commit_like():
     assert fsutil.parse_path_or_url(git_url).ref == 'master'
     assert fsutil.parse_path_or_url(git_url + '#').ref == 'master'
     assert fsutil.parse_path_or_url(git_url + '#f0a1b2').ref == 'f0a1b2'
+    assert fsutil.parse_path_or_url(git_url + '#f0a1b2').url == git_url
+
+
+def test_parse_path_or_url_local_path():
+    path = './ento/ento.git'
+    assert fsutil.parse_path_or_url(path).path == path
 
 
 def test_decide_paths_for_local_source(tmpdir):
