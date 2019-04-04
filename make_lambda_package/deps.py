@@ -18,15 +18,16 @@ if [ ! -d env ]; then
     virtualenv env
 fi
 source env/bin/activate
-pip install pip-tools
+#pip install pip-tools
 
 cd "{docker_src_dir}"
 
-pip-sync {requirements_file}
+#pip-sync {requirements_file}
+pip install -r {requirements_file}
 
 rm -f "{docker_build_dir}/{deps_file}"
-packages=({package_names})
-for package in ${{packages[@]}}; do
+
+for package in $(pip freeze | sed s/=.*//); do
     if pip show $package | grep 'Location: {docker_build_dir}'; then
         pip show -f $package | sed -e '1,/^Files:/d' >> "{docker_build_dir}/{deps_file}"
     fi
@@ -34,7 +35,7 @@ done
 '''
 
 
-def build_deps(paths, requirements_file):
+def build_deps(paths, requirements_file, python='python2.7'):
     requirements = parse_requirements(
         os.path.join(paths.src_dir, requirements_file), session=True)
     package_names = [req.name for req in requirements]
@@ -55,7 +56,7 @@ def build_deps(paths, requirements_file):
         'docker', 'run',
         '-v', '{build_dir}:{docker_build_dir}'.format(**context),
         '-v', '{src_dir}:{docker_src_dir}'.format(**context),
-        'lambci/lambda:build-python2.7',
+        'lambci/lambda:build-{python}'.format(python=python),
         'bash', '-c', build_script,
     ]
     subprocess.check_call(command)
