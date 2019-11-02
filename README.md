@@ -68,6 +68,9 @@ To use it:
                                       package. Useful for config files.
       --work-dir <output_directory>   Where to store intermediary files and the
                                       zipped package.
+      --runtime <lambda_runtime>      Lambda runtime. Docker image
+                                      `lambci/lambda:build-{runtime}` will be used
+                                      for the build.
       --help                          Show this message and exit.
 
 # Development

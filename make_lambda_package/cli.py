@@ -26,12 +26,18 @@ from make_lambda_package import scm
               metavar='<output_directory>',
               type=click.Path(exists=False, file_okay=False, writable=True),
               help='Where to store intermediary files and the zipped package. ')
+@click.option('--runtime',
+              metavar='<lambda_runtime>',
+              default='python2.7',
+              type=click.Choice(['python2.7', 'python3.6', 'python3.7']),
+              help='Lambda runtime. Docker image `lambci/lambda:build-{runtime}` will be used for the build.')
 def main(
         source,
         repo_source_files,
         requirements_file,
         local_source_file,
-        work_dir):
+        work_dir,
+        runtime):
     """
     Bundle up a deployment package for AWS Lambda.
 
@@ -93,11 +99,12 @@ def main(
     deps_file = None
     if requirements_file:
         click.echo('Building deps..')
-        deps_file = deps.build_deps(paths, requirements_file)
+        deps_file = deps.build_deps(paths, requirements_file, runtime)
 
     click.echo('Creating zip file..')
     archive.make_archive(
         paths,
+        runtime,
         repo_source_files,
         local_source_file,
         deps_file)

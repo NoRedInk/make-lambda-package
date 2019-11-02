@@ -18,13 +18,13 @@ def test_repo_and_local_source_files(tmpdir):
         # this should not be added to the archive
         py.path.local().join('hello.txt').write('local')
 
-        archive.make_archive(paths, repo_source_files='hello.txt')
+        archive.make_archive(paths, None, repo_source_files='hello.txt')
 
         with ZipFile(paths.zip_path) as zipfile:
             with zipfile.open('hello.txt') as f:
                 assert f.read().decode('utf-8') == 'repo'
 
-        archive.make_archive(paths, local_source_files=[('hello.txt', 'dest.txt')])
+        archive.make_archive(paths, None, local_source_files=[('hello.txt', 'dest.txt')])
 
         with ZipFile(paths.zip_path) as zipfile:
             with zipfile.open('dest.txt') as f:
@@ -37,8 +37,9 @@ def test_deps_file(tmpdir):
         paths = fsutil.decide_paths(scm_source)
         fsutil.ensure_dirs(paths)
 
+        runtime = 'python2.7'
         site_packages_path = py.path.local(paths.build_dir).join(
-            'env', 'lib', 'python2.7', 'site-packages')
+            'env', 'lib', runtime, 'site-packages')
 
         fsutil.mkdir_p(str(site_packages_path))
 
@@ -47,7 +48,7 @@ def test_deps_file(tmpdir):
         deps_file = py.path.local('deps.txt')
         deps_file.write('\n'.join(['mypackage/hello.txt', '../ghost']))
 
-        archive.make_archive(paths, deps_file=str(deps_file))
+        archive.make_archive(paths, runtime, deps_file=str(deps_file))
 
         with ZipFile(paths.zip_path) as zipfile:
             assert len(zipfile.namelist()) == 1
