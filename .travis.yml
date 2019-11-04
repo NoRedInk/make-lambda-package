@@ -3,14 +3,15 @@ services:
   - docker
 language: python
 cache: pip
-python:
- - "3.6"
- - "3.5"
- - "3.4"
- - "pypy"
-env:
-  - TEST_PIP_VERSION="<10.0"
-  - TEST_PIP_VERSION=""
+jobs:
+  include:
+  - python: "3.7"
+    env: TEST_PIP_VERSION="<10.0"
+  - python: "3.7"
+  - python: "3.6"
+  - python: "3.5"
+  - python: "3.4"
+  - python: "pypy"
 install:
   - "pip install tox tox-travis"
 script:
