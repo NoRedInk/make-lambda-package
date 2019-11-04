@@ -61,6 +61,31 @@ def test_with_all_source_options(tmpdir, runner):
             assert 'make_lambda_package/cli.py' in namelist
 
 
+def test_with_explicit_runtime(tmpdir, runner):
+    cwd = os.getcwd()
+    work_dir = tmpdir.join('deploy_package')
+    args = [
+        cwd,
+        '--repo-source-files', 'make_lambda_package/*.py',
+        '--requirements-file', 'tests/test-requirements.txt',
+        '--runtime', 'python3.6',
+        '--work-dir', str(work_dir),
+    ]
+
+    with tmpdir.as_cwd():
+        result = runner.invoke(cli.main, args)
+        assert not result.exception, result.output
+        assert result.exit_code == 0, result.output
+
+        zip_path = work_dir.join('dist', 'lambda-package.zip')
+        assert zip_path.isfile(), result.output
+
+        with ZipFile(str(zip_path)) as zipfile:
+            namelist = zipfile.namelist()
+            assert len(list(filter(lambda name: 'click' in name, namelist))) > 0
+            assert 'make_lambda_package/cli.py' in namelist
+
+
 def test_fail_if_no_docker_command(tmpdir, mocker, runner):
     with tmpdir.as_cwd():
         mocked_call = mocker.patch.object(subprocess, 'call', return_value=1)

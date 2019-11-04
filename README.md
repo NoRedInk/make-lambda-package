@@ -19,7 +19,7 @@ Or pip:
 Packaging dependencies with the `--requirements-file` option requires
 [the `docker` command](https://www.docker.com/) to be in your `$PATH`.
 Dependencies will be built in a [lambci/lambda:build-python2.7](https://github.com/lambci/docker-lambda)
-container.
+container by default.
 
 
 # Usage
@@ -68,6 +68,9 @@ To use it:
                                       package. Useful for config files.
       --work-dir <output_directory>   Where to store intermediary files and the
                                       zipped package.
+      --runtime <lambda_runtime>      Lambda runtime. Docker image
+                                      `lambci/lambda:build-{runtime}` will be used
+                                      for the build.
       --help                          Show this message and exit.
 
 # Development

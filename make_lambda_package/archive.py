@@ -7,6 +7,7 @@ from make_lambda_package import fsutil
 
 def make_archive(
         paths,
+        runtime,
         repo_source_files=None,
         local_source_files=None,
         deps_file=None):
@@ -17,7 +18,7 @@ def make_archive(
         if local_source_files:
             _add_local_files(f, local_source_files)
         if deps_file:
-            _add_deps(f, paths, deps_file)
+            _add_deps(f, paths, deps_file, runtime)
 
 
 def _add_local_files(zipfile, local_source_files):
@@ -31,9 +32,9 @@ def _add_repo_files(zipfile, paths, repo_source_files):
             zipfile.write(path)
 
 
-def _add_deps(zipfile, paths, deps_file):
+def _add_deps(zipfile, paths, deps_file, runtime):
     site_packages_path = os.path.join(
-        paths.build_dir, 'env', 'lib', 'python2.7', 'site-packages')
+        paths.build_dir, 'env', 'lib', runtime, 'site-packages')
     with fsutil.chdir(site_packages_path), open(deps_file) as f:
         for line in f:
             if line.startswith(os.pardir):
